@@ -1,11 +1,14 @@
 {
-    "name": "scraper 2",
+    "name": "scraper2",
     "version": "0.1.0",
     "author": "swong",
+    "description": "asdf",
+    "repository": "asdf",
+    "license": "SEE LICENSE IN asdf",
     "scripts": {
       "client": "./node_modules/.bin/webpack --watch",
-      "server": "nodemon --exec ./node_modules/.bin/babel-node server/server.js --ignore client",
-      "develop": "clear && ./node_modules/.bin/concurrently --kill-others-on-fail \"npm run server\" \"npm run client\""
+      "start": "nodemon --exec ./node_modules/.bin/babel-node app/server.js --ignore client",
+      "develop": "clear && ./node_modules/.bin/concurrently --kill-others-on-fail \"npm run start\" \"npm run client\""
     },
     "dependencies": {
       "@babel/cli": "^7.6.0",
@@ -20,8 +23,7 @@
       "express": "^4.17.1",
       "nodemon": "^1.19.2",
       "react": "^16.9.0",
-      "react-dom": "^16.9.0",
-      "request": "^2.88.0"
+      "react-dom": "^16.9.0"
     },
     "devDependencies": {
       "concurrently": "^4.1.2",
