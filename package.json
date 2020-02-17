@@ -1,34 +1,36 @@
 {
-    "name": "scraper2",
-    "version": "0.1.0",
-    "author": "swong",
-    "description": "asdf",
-    "repository": "asdf",
-    "license": "SEE LICENSE IN asdf",
-    "scripts": {
-      "client": "./node_modules/.bin/webpack --watch",
-      "start": "nodemon --exec ./node_modules/.bin/babel-node app/server.js --ignore client",
-      "develop": "clear && ./node_modules/.bin/concurrently --kill-others-on-fail \"npm run start\" \"npm run client\""
-    },
-    "dependencies": {
-      "@babel/cli": "^7.6.0",
-      "@babel/core": "^7.6.2",
-      "@babel/node": "^7.6.2",
-      "@babel/plugin-proposal-class-properties": "^7.5.5",
-      "@babel/preset-env": "^7.6.0",
-      "@babel/preset-react": "^7.0.0",
-      "babel-loader": "^8.0.6",
-      "babel-plugin-transform-object-rest-spread": "^6.26.0",
-      "es6-promise": "^4.2.8",
-      "express": "^4.17.1",
-      "nodemon": "^1.19.2",
-      "react": "^16.9.0",
-      "react-dom": "^16.9.0"
-    },
-    "devDependencies": {
-      "concurrently": "^4.1.2",
-      "webpack": "^4.40.2",
-      "webpack-cli": "^3.3.9"
-    }
+  "name": "scraper2",
+  "version": "0.1.0",
+  "author": "swong",
+  "description": "asdf",
+  "repository": "asdf",
+  "license": "SEE LICENSE IN asdf",
+  "scripts": {
+    "client": "./node_modules/.bin/webpack --watch",
+    "start": "nodemon --exec ./node_modules/.bin/babel-node app/server.js --ignore client",
+    "develop": "clear && ./node_modules/.bin/concurrently --kill-others-on-fail \"npm run start\" \"npm run client\""
+  },
+  "dependencies": {
+    "@babel/cli": "^7.6.0",
+    "@babel/core": "^7.6.2",
+    "@babel/node": "^7.6.2",
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/plugin-proposal-export-default-from": "^7.8.3",
+    "@babel/preset-env": "^7.6.0",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.0.6",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "dotenv": "^8.2.0",
+    "es6-promise": "^4.2.8",
+    "express": "^4.17.1",
+    "nodemon": "^1.19.2",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0"
+  },
+  "devDependencies": {
+    "concurrently": "^4.1.2",
+    "jest": "^25.1.0",
+    "webpack": "^4.40.2",
+    "webpack-cli": "^3.3.9"
   }
-  
+}
