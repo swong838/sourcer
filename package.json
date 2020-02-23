@@ -8,7 +8,8 @@
   "scripts": {
     "client": "./node_modules/.bin/webpack --watch",
     "start": "nodemon --exec ./node_modules/.bin/babel-node app/server.js --ignore client",
-    "develop": "clear && ./node_modules/.bin/concurrently --kill-others-on-fail \"npm run start\" \"npm run client\""
+    "develop": "clear && ./node_modules/.bin/concurrently --kill-others-on-fail \"npm run start\" \"npm run client\"",
+    "test": "jest"
   },
   "dependencies": {
     "@babel/cli": "^7.6.0",
@@ -28,6 +29,7 @@
     "react-dom": "^16.9.0"
   },
   "devDependencies": {
+    "babel-jest": "^25.1.0",
     "concurrently": "^4.1.2",
     "jest": "^25.1.0",
     "webpack": "^4.40.2",
