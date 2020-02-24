@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
+import bytes from 'bytes';
+
 class App extends Component {
 
     constructor(props){
@@ -14,9 +16,8 @@ class App extends Component {
         this.refresh();
     }
 
-    refresh(term){
-        const searchval = term || 'mp4';
-        fetch(`/search/${searchval}`)
+    refresh(term='KTR'){
+        fetch(`/search/${term}`)
             .then(response => response.json())
             .then(json => this.setState({results: json}));
     }
@@ -25,18 +26,18 @@ class App extends Component {
 
         const items = this.state.results.map(
             (item, index) => (
-                <li key={`item_${index}`}>
-                    <a href={item.link}>
-                        {item.title}
-                    </a>
-                </li>
+                <tr key={`item_${index}`} className={!(index % 2) ? 'tinted' : ''}>
+                    <td>{index + 1}</td>
+                    <td><code>{bytes(item.size, {unit: 'GB'})}</code></td>
+                    <td><a href={item.link}>{item.title}</a></td>
+                </tr>
             )
         )
 
         return (
-            <section>
+            <table>
                 <ol>{items}</ol>
-            </section>
+            </table>
         )
     }
 }
