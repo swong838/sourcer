@@ -8,8 +8,9 @@ const server = express();
 
 server.use('/', express.static('./app/client'))
 
-server.get('/search/:searchterm(\\w{0,})', (request, response, next) => {
-    response.send(grab(searchterm));
+server.get('/search/:searchterm([a-zA-Z0-9-_]{0,})', async (request, response, next) => {
+    const results = await grab(request.params.searchterm);
+    response.json(results);
 });
 
 server.listen(port, () => {

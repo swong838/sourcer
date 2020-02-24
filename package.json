@@ -9,7 +9,8 @@
     "client": "./node_modules/.bin/webpack --watch",
     "start": "nodemon --exec ./node_modules/.bin/babel-node app/server.js --ignore client",
     "develop": "clear && ./node_modules/.bin/concurrently --kill-others-on-fail \"npm run start\" \"npm run client\"",
-    "test": "jest"
+    "test": "jest",
+    "test-dev": "jest --watch"
   },
   "dependencies": {
     "@babel/cli": "^7.6.0",
@@ -24,6 +25,7 @@
     "dotenv": "^8.2.0",
     "es6-promise": "^4.2.8",
     "express": "^4.17.1",
+    "node-fetch": "^2.6.0",
     "nodemon": "^1.19.2",
     "react": "^16.9.0",
     "react-dom": "^16.9.0"

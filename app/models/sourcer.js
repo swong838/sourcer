@@ -1,37 +1,40 @@
+import fetch from 'node-fetch';
+import querystring from 'querystring';
+
 require('dotenv').config();
 
-const server = process.env.SERVERPATH;
+const api = process.env.SERVERPATH;
 const args = {
     'apikey': process.env.APIKEY,
     'o': 'json',
-    'q': '',
     't': 'search',
     'minsize': '209715200',
     'maxage': '10',
     'limit': '200',
-}
+};
 
-const grab = (term='MP4') => {
+const grab = async (term) => {
     /* 
         fetches from API at server
     */
-    console.log(`${term}`)
+    return await fetch(`${api}?${querystring.stringify({...args, 'q': term})}`)
+        .then(response => response.json())
+        .then(payload => loader(payload));
 }
 
 const loader = apiresponse => {
     /*
-        parses API responses
+        parses API response
     */
     if (!apiresponse.channel || !apiresponse.channel.item) {
-        throw new Error(`can't parse response from endpoint`);
+       throw new Error(`can't parse response from endpoint`);
     }
-
     return apiresponse.channel.item.map(member => {
-        const { title, description, link } = member;
-        const size = member.enclosure['@attributes'].length;   
-        return {title, description, link, size}
+       const { title, description } = member;
+       const link = member.link.replace(/&amp;/g, '&');
+       const size = member.enclosure['@attributes'].length;
+       return {title, description, link, size}
     });
-
 };
 
 export { grab, loader };
