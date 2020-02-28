@@ -12,21 +12,26 @@ class App extends Component {
         }
     }
 
+    // hit remote API on page load
     componentDidMount(){
         this.refresh();
     }
 
+    // fetch from remote API
     refresh(term='KTR'){
         fetch(`/search/${term}`)
             .then(response => response.json())
             .then(json => this.setState({results: json}));
     }
 
+    // redo remote API search
     search = event => this.refresh(event.target.value)
 
+    // relay selection to local app
     toQueue = identifier => {
         return async (event) => {
             event.preventDefault();
+            // call local app API
             const result = await fetch('/push', {
                 method: 'POST',
                 mode: 'cors',
@@ -41,6 +46,7 @@ class App extends Component {
     }
 
     render(){
+        // each row
         const items = this.state.results.map(
             (item, index) => {
                 const { title, pubDate, size, identifier } = item;
@@ -56,8 +62,9 @@ class App extends Component {
                     </tr>
                 )
             }
-        )
+        );
 
+        // full table
         return (
             <React.Fragment>
                 <section>
@@ -66,11 +73,8 @@ class App extends Component {
                 </section>
                 <table><tbody>{items}</tbody></table>
             </React.Fragment> 
-        )
+        );
     }
 }
-
-
-
 
 ReactDOM.render(<App />, document.getElementById('app'));

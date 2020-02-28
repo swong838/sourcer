@@ -1,8 +1,8 @@
 import fetch from 'node-fetch';
 import querystring from 'querystring';
 
+// API configs from env
 require('dotenv').config();
-
 const apis = {
     source: {
         url: process.env.SOURCEPATH,
@@ -51,9 +51,7 @@ const loader = (apiresponse) => {
         const { title, pubDate } = member;
         const link = member.link.replace(/&amp;/g, '&');
         const size = parseInt(member.enclosure['@attributes'].length, 10);
-
         const identifier = member.attr[3]['@attributes'].value;
-
         return { title, pubDate, link, size, identifier };
     });
 };
@@ -62,8 +60,7 @@ const queue = async (identifier) => {
     /*
         pushes item to next API for processing
     */
-
-    const payload = encodeURI(`${apis.source.url}?${querystring.stringify({...apis.source.itemArgs,id: identifier})}`);
+    const payload = encodeURI(`${apis.source.url}?${querystring.stringify({...apis.source.itemArgs, id: identifier})}`);
     const route = `${apis.sink.url}?${querystring.stringify({...apis.sink.args, name: payload})}`;
     return await fetch(route)
         .then(response => response.json())
