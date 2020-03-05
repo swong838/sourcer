@@ -30,4 +30,4 @@ package-lock.json
 test/*.log
 
 # the build
-app/client/static/*
+/app/client/static/*
