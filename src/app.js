@@ -52,7 +52,7 @@ class App extends Component {
                 const { title, pubDate, size, identifier } = item;
                 return (
                     <tr key={`item_${index}`} className={!(index % 2) ? 'tinted' : ''}>
-                        <td>{index + 1} {pubDate}</td>
+                        <td>{pubDate}</td>
                         <td>
                             <code>{bytes(size, {unit: 'GB'})}</code>
                         </td>
