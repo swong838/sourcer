@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 
 import bytes from 'bytes';
 
+
+
 class App extends Component {
 
     constructor(props){
@@ -50,9 +52,15 @@ class App extends Component {
         const items = this.state.results.map(
             (item, index) => {
                 const { title, pubDate, size, identifier } = item;
+
+                const day = /^(\w+)/.exec(pubDate)[0];
+
+
                 return (
-                    <tr key={`item_${index}`} className={!(index % 2) ? 'tinted' : ''}>
-                        <td>{pubDate}</td>
+                    <tr key={`item_${index}`} className={`${day} ${!(index % 2) ? 'tinted' : ''}`}>
+                        <td>
+                            {pubDate}
+                        </td>
                         <td>
                             <code>{bytes(size, {unit: 'GB'})}</code>
                         </td>
