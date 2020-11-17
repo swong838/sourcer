@@ -1,5 +1,8 @@
 import express from 'express';
 
+import { ApolloServer, gql } from 'apollo-server';
+import { typeDefs, resolvers } from './models/gql';
+
 import { grab, queue } from './models/sourcer';
 
 const port = process.env.PORT || 5000;

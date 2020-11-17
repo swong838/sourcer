@@ -29,15 +29,22 @@ const apis = {
     }
 }
 
+
+
 const grab = async (term) => {
     /* 
         fetches from api
     */
     const route = `${apis.source.url}?${querystring.stringify({...apis.source.args, 'q': term})}`;
+    console.log('calling remote api')
     return await fetch(route)
         .then(response => response.json())
         .then(payload => loader(payload))
-        .catch(_ => [{title: 'no results', link: '', size: "0"}]);
+        .catch(err => {
+                console.log(`++ no results ${err}`);
+                return [{title: 'no results', link: '', size: "0"}]
+            }
+        );
 }
 
 const loader = (apiresponse) => {
@@ -47,6 +54,8 @@ const loader = (apiresponse) => {
     if (!apiresponse.channel || !apiresponse.channel.item) {
         throw new Error(`couldn't parse response from endpoint`);
     }
+
+    console.log(`***** Received ${apiresponse}`);
 
     // sort by date, then alpha by title within date
     let responsesByDate = new Map();
@@ -96,9 +105,6 @@ const queue = async (identifier) => {
     return await fetch(route)
         .then(response => response.json())
 };
-
-
-const _cleanDate = (date) => date.match(/^(\w+), (\d+) (\w+) (\d+)/)[0];
 
 
 export { grab, queue, loader };

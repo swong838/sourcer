@@ -23,7 +23,10 @@ class App extends Component {
     refresh(term='KTR'){
         fetch(`/search/${term}`)
             .then(response => response.json())
-            .then(json => this.setState({results: json}));
+            .then(json => {
+                console.log(`===== Received ${json}`);
+                this.setState({results: json});
+            );
     }
 
     // redo remote API search
