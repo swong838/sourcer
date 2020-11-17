@@ -29,6 +29,7 @@ const apis = {
     }
 }
 
+const _cleanDate = (date) => date.match(/^(\w+), (\d+) (\w+) (\d+)/)[0];
 
 
 const grab = async (term) => {

@@ -5,11 +5,15 @@ const _cleanDate = (date) => date.match(/^(\w+), (\d+) (\w+) (\d+)/)[0];
 
 const typeDefs = gql`
     type Post {
-
+        title: String!
+        pubDate: String!
+        link: String!
+        size: Int!
+        identifier: String!
     }
 
     type Query {
-        posts: [Post]
+        posts: [Post!]
     }
 `;
 
@@ -26,10 +30,6 @@ export default {
     resolvers,
     typeDefs,
 }
-
-
-
-
 
 
 
