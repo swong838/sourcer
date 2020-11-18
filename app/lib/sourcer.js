@@ -1,9 +1,11 @@
 import fetch from 'node-fetch';
 import querystring from 'querystring';
 
+import { RESTDataSource } from 'apollo-datasource-rest';
+
 // API configs from env
 require('dotenv').config();
-const apis = {
+const apis = Object.freeze({
     source: {
         url: process.env.SOURCEPATH,
         args: {
@@ -27,12 +29,55 @@ const apis = {
             apikey: process.env.SINKKEY
         }
     }
-}
+});
 
 const _cleanDate = (date) => date.match(/^(\w+), (\d+) (\w+) (\d+)/)[0];
 
 
-const grab = async (term) => {
+class PostAPI extends RESTDataSource {
+    constructor() {
+        super();
+        this.baseURL = apis.source.url;
+    }
+
+    async getPosts({
+        term='',
+        maxage=10,
+        limit=200,
+    }) {
+        console.log(`Fetching results for ${term}`);
+
+        const GETQuery = querystring.stringify({
+            ...apis.source.args,
+            limit,
+            maxage,
+            q: term,
+        });
+        const response = await this.get(`?${GETQuery}`);
+
+        if (!response.channel || !response.channel.item) {
+            throw new Error(`couldn't parse response from endpoint`);
+        }
+
+
+
+
+    }
+
+    postReducer({ title, pubDate, link, enclosure, attr }) {
+        // transform Post response from endpoint format to local schema
+        return {
+            title: title,
+            pubDate: _cleanDate(pubDate),
+            link: link.replace(/&amp;/g, '&'),
+            size: parseInt(enclosure['@attributes'].length, 10),
+            identifier: attr[3]['@attributes'].value,
+        }
+    }
+}
+
+
+const grab = async () => {
     /* 
         fetches from api
     */
@@ -43,7 +88,7 @@ const grab = async (term) => {
         .then(payload => loader(payload))
         .catch(err => {
                 console.log(`++ no results ${err}`);
-                return [{title: 'no results', link: '', size: "0"}]
+                return [{title: 'no results', link: '', size: "0"}];
             }
         );
 }
