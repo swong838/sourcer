@@ -1,32 +1,49 @@
 import express from 'express';
 
-import { ApolloServer, gql } from 'apollo-server';
+import { ApolloServer } from 'apollo-server';
 import { typeDefs, resolvers } from './lib/gql';
 
-import { grab, queue } from './lib/sourcer';
+import { PostAPI, queue } from './lib/sourcer';
 
+
+// gql
+const gqlServer = new ApolloServer({
+    typeDefs,
+    resolvers,
+    dataSources: () => ({
+        postAPI: new PostAPI(),
+    })
+});
+
+
+// frontend
 const port = process.env.PORT || 5000;
-const server = express();
+const webServer = express();
 
 // init json parsing middleware
-server.use(express.json())
+webServer.use(express.json())
 
 // the app
-server.use('/', express.static('./app/client'))
+webServer.use('/', express.static('./app/client'))
 
-// proxy the remote API call through this server
-server.get('/search/:searchterm([a-zA-Z0-9-_]{0,})', async (request, response, next) => {
+// proxy the remote API call through this webServer
+webServer.get('/search/:searchterm([a-zA-Z0-9-_]{0,})', async (request, response, next) => {
     const results = await grab(request.params.searchterm);
     response.json(results);
 });
 
 // proxy the client calls to the local processing API
-server.post('/push', async (request, response, next) => {
+webServer.post('/push', async (request, response, next) => {
     const results = await queue(request.body.identifier);
     response.json(results);
 });
 
+
 // start the app
-server.listen(port, () => {
-    console.log(`Listening on port ${port}`);
+gqlServer.listen().then(({ url }) => {
+    console.log(`gql endpoint up at port ${url}`)
 });
+
+// webServer.listen(port, () => {
+//     console.log(`Frontend listening on port ${port}`);
+// });

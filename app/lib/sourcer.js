@@ -59,9 +59,37 @@ class PostAPI extends RESTDataSource {
             throw new Error(`couldn't parse response from endpoint`);
         }
 
+        // sort by date, then alpha by title within date
+        let responsesByDate = new Map();
+        response.channel.item.forEach((postEntry) => {
+            const post = this.postReducer(postEntry);
+            let thisDate = responsesByDate.get(post.pubDate);
+            if (thisDate) {
+                thisDate.push(post);
+            }
+            else {
+                responsesByDate.set(post.pubDate, [post]);
+            }
+        });
+    
+        let sortedPosts = [];
 
-
-
+        // sort by title within each date
+        for (let entriesByDate of responsesByDate.values()) {
+            entriesByDate.sort((first, second) => {
+                const firstTitle = first.title.toUpperCase();
+                const secondTitle = second.title.toUpperCase();
+                if (firstTitle < secondTitle) {
+                    return -1;
+                }
+                if (firstTitle > secondTitle) {
+                    return 1;
+                }
+                return 0;
+            });
+            sortedPosts.push(entriesByDate)
+        }    
+        return sortedPosts.flat();
     }
 
     postReducer({ title, pubDate, link, enclosure, attr }) {
@@ -153,4 +181,4 @@ const queue = async (identifier) => {
 };
 
 
-export { grab, queue, loader };
+export { grab, queue, PostAPI };

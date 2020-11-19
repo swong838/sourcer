@@ -1,5 +1,5 @@
 import { gql } from 'apollo-server';
-
+import { PostAPI } from './sourcer';
 
 const _cleanDate = (date) => date.match(/^(\w+), (\d+) (\w+) (\d+)/)[0];
 
@@ -19,21 +19,21 @@ const typeDefs = gql`
 
 const resolvers = {
     Query: {
-        posts: (parent, args, context, info) => {
-            return [];
+        posts: (parent, {term=''}, { dataSources }, info) => {
+            return dataSources.postAPI.getPosts({term});
         }
     }
 };
 
 
-export default {
+export {
     resolvers,
     typeDefs,
-}
+};
 
 
 
-
+/*
 const loader = (apiresponse) => {
     // parses API response
    if (!apiresponse.channel || !apiresponse.channel.item) {
@@ -80,3 +80,5 @@ const loader = (apiresponse) => {
     }    
     return responses.flat();
     };
+*/
+
