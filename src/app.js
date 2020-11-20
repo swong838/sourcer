@@ -1,36 +1,28 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
-import bytes from 'bytes';
 
+import {
+    ApolloClient,
+    ApolloProvider,
+    InMemoryCache,
+} from '@apollo/client';
+
+
+import ResultTable from './resultTable';
+
+const client = new ApolloClient({
+    uri: "http://ceres:4000",
+    cache: new InMemoryCache()
+});
 
 
 class App extends Component {
 
     constructor(props){
         super(props);
-        this.state = {
-            results: []
-        }
+        this.state = {term: 'pbs'};
     }
-
-    // hit remote API on page load
-    componentDidMount(){
-        this.refresh();
-    }
-
-    // fetch from remote API
-    refresh(term='KTR'){
-        fetch(`/search/${term}`)
-            .then(response => response.json())
-            .then(json => {
-                console.log(`===== Received ${json}`);
-                this.setState({results: json});
-            );
-    }
-
-    // redo remote API search
-    search = event => this.refresh(event.target.value)
 
     // relay selection to local app
     toQueue = identifier => {
@@ -50,40 +42,19 @@ class App extends Component {
         }
     }
 
-    render(){
-        // each row
-        const items = this.state.results.map(
-            (item, index) => {
-                const { title, pubDate, size, identifier } = item;
-
-                const day = /^(\w+)/.exec(pubDate)[0];
-
-
-                return (
-                    <tr key={`item_${index}`} className={`${day} ${!(index % 2) ? 'tinted' : ''}`}>
-                        <td>
-                            {pubDate}
-                        </td>
-                        <td>
-                            <code>{bytes(size, {unit: 'GB'})}</code>
-                        </td>
-                        <td>
-                            <a href='#' onClick={this.toQueue(identifier)}>{title}</a>
-                        </td>
-                    </tr>
-                )
-            }
-        );
-
-        // full table
+    render() {
         return (
-            <React.Fragment>
+            <ApolloProvider client={client}>
                 <section>
-                    <input type="text" placeholder="search" onBlur={this.search}/>
+                    <input type="text" placeholder="search" onBlur={e => {
+                        this.setState({
+                            term: e.target.value
+                        });
+                    }} />
                     <button>go</button>
                 </section>
-                <table><tbody>{items}</tbody></table>
-            </React.Fragment> 
+                <ResultTable term={this.state.term} />
+            </ApolloProvider>
         );
     }
 }

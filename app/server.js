@@ -50,6 +50,6 @@ gqlServer.listen().then(({ url }) => {
     console.log(`gql endpoint up at port ${url}`)
 });
 
-// webServer.listen(port, () => {
-//     console.log(`Frontend listening on port ${port}`);
-// });
+webServer.listen(port, () => {
+    console.log(`Frontend listening on port ${port}`);
+});
