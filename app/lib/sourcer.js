@@ -98,14 +98,14 @@ class PostAPI extends RESTDataSource {
             title: title,
             pubDate: _cleanDate(pubDate),
             link: link.replace(/&amp;/g, '&'),
-            size: parseInt(enclosure['@attributes'].length, 10),
+            size: enclosure['@attributes'].length,
             identifier: attr[3]['@attributes'].value,
         }
     }
 }
 
 
-const grab = async () => {
+const grabb = async () => {
     /* 
         fetches from api
     */
@@ -181,4 +181,4 @@ const queue = async (identifier) => {
 };
 
 
-export { grab, queue, PostAPI };
+export { queue, PostAPI };
