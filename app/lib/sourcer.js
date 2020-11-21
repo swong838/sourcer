@@ -1,4 +1,3 @@
-import fetch from 'node-fetch';
 import querystring from 'querystring';
 
 import { RESTDataSource } from 'apollo-datasource-rest';
@@ -35,6 +34,11 @@ const _cleanDate = (date) => date.match(/^(\w+), (\d+) (\w+) (\d+)/)[0];
 
 
 class PostAPI extends RESTDataSource {
+
+    /**
+     * Manages lookups against the post source API
+     */
+
     constructor() {
         super();
         this.baseURL = apis.source.url;
@@ -104,81 +108,28 @@ class PostAPI extends RESTDataSource {
     }
 }
 
+class GrabberAPI extends RESTDataSource {
 
-const grabb = async () => {
-    /* 
-        fetches from api
-    */
-    const route = `${apis.source.url}?${querystring.stringify({...apis.source.args, 'q': term})}`;
-    console.log('calling remote api')
-    return await fetch(route)
-        .then(response => response.json())
-        .then(payload => loader(payload))
-        .catch(err => {
-                console.log(`++ no results ${err}`);
-                return [{title: 'no results', link: '', size: "0"}];
-            }
-        );
-}
+    /**
+     * Manages jobs on the destination (sink) API
+     */
 
-const loader = (apiresponse) => {
-    /*
-        parses API response
-    */
-    if (!apiresponse.channel || !apiresponse.channel.item) {
-        throw new Error(`couldn't parse response from endpoint`);
+    constructor() {
+        super();
+        this.baseURL = apis.sink.url;
     }
 
-    console.log(`***** Received ${apiresponse}`);
+    async queue (identifier) {
 
-    // sort by date, then alpha by title within date
-    let responsesByDate = new Map();
-    apiresponse.channel.item.forEach((member) => {
-        const { title } = member;
-        const pubDate = _cleanDate(member.pubDate);
-        const link = member.link.replace(/&amp;/g, '&');
-        const size = parseInt(member.enclosure['@attributes'].length, 10);
-        const identifier = member.attr[3]['@attributes'].value;
+        console.log(`queueing ${identifier}`)
 
-        const responseItem = { title, pubDate, link, size, identifier }
-        let thisDate = responsesByDate.get(pubDate);
-        if (thisDate) {
-            thisDate.push(responseItem);
-        }
-        else {
-            responsesByDate.set(pubDate, [responseItem]);
-        }
-    });
+        const name = encodeURI(`${apis.source.url}?${querystring.stringify({...apis.source.itemArgs, id: identifier})}`);
+        const queueResponse = await this.get('', { ...apis.sink.args, name });
 
-    let responses = [];
+        console.log('destination returned', queueResponse)
+        return { identifier, status: !!queueResponse.status };
+    }
 
-    // sort by title within each date
-    for (let entriesByDate of responsesByDate.values()) {
-        entriesByDate.sort((first, second) => {
-            const firstTitle = first.title.toUpperCase();
-            const secondTitle = second.title.toUpperCase();
-            if (firstTitle < secondTitle) {
-                return -1;
-            }
-            if (firstTitle > secondTitle) {
-                return 1;
-            }
-            return 0;
-        });
-        responses.push(entriesByDate)
-    }    
-    return responses.flat();
 };
 
-const queue = async (identifier) => {
-    /*
-        pushes item to next API for processing
-    */
-    const payload = encodeURI(`${apis.source.url}?${querystring.stringify({...apis.source.itemArgs, id: identifier})}`);
-    const route = `${apis.sink.url}?${querystring.stringify({...apis.sink.args, name: payload})}`;
-    return await fetch(route)
-        .then(response => response.json())
-};
-
-
-export { queue, PostAPI };
+export { PostAPI, GrabberAPI };

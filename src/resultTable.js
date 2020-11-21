@@ -17,6 +17,10 @@ const getPosts = gql`
     }
 `;
 
+const queuePost = gql`
+
+`;
+
 const ResultTable = ({ term }) => {
     const { loading, error, data } = useQuery(
         getPosts,
@@ -51,7 +55,6 @@ const ResultTable = ({ term }) => {
 
     return (
         <React.Fragment>
-            
             <table><tbody>{items}</tbody></table>
         </React.Fragment>
     );

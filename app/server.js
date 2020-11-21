@@ -3,7 +3,7 @@ import express from 'express';
 import { ApolloServer } from 'apollo-server';
 import { typeDefs, resolvers } from './lib/gql';
 
-import { PostAPI, queue } from './lib/sourcer';
+import { PostAPI, GrabberAPI } from './lib/sourcer';
 
 
 // gql
@@ -12,6 +12,7 @@ const gqlServer = new ApolloServer({
     resolvers,
     dataSources: () => ({
         postAPI: new PostAPI(),
+        grabberAPI: new GrabberAPI(),
     })
 });
 
@@ -40,8 +41,8 @@ webServer.get('/search/:searchterm([a-zA-Z0-9-_]{0,})', async (request, response
 
 // proxy the client calls to the local processing API
 webServer.post('/push', async (request, response, next) => {
-    const results = await queue(request.body.identifier);
-    response.json(results);
+    // const results = await queue(request.body.identifier);
+    // response.json(results);
 });
 
 
