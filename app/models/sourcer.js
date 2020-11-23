@@ -11,8 +11,8 @@ const apis = {
             o: 'json',
             t: 'search',
             minsize: '209715200',
-            maxage: '10',
-            limit: '200',
+            maxage: '100',
+            limit: '400',
         },
         itemArgs: {
             apikey: process.env.SOURCEKEY,
