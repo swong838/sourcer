@@ -120,15 +120,9 @@ class GrabberAPI extends RESTDataSource {
     }
 
     async queue (identifier) {
-
-    
         const name = encodeURI(`${apis.source.url}?${querystring.stringify({...apis.source.itemArgs, id: identifier})}`);
-        // const queueResponse = await this.get('', { ...apis.sink.args, name });
-        console.log(`queueing ${identifier} to call ${name}`);
-        // console.log('destination returned', queueResponse)
-
-        //return { identifier, status: !!queueResponse.status };
-        return { identifier, status: false }; //[][][]
+        const queueResponse = await this.get('', { ...apis.sink.args, name });
+        return { identifier, status: queueResponse.status };
     }
 
 };

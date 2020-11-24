@@ -32,6 +32,8 @@ const ResultTable = ({ term }) => {
         { variables: { term }}
     );
 
+    const [queuePost, { data: queueResponse }] = useMutation(QUEUE_POST);
+
     if (loading) {
         return <p>loading</p>
     }
@@ -51,7 +53,15 @@ const ResultTable = ({ term }) => {
                         <code>{bytes(size, {unit: 'GB'})}</code>
                     </td>
                     <td>
-                        <a href='#' onClick={() => {console.log(identifier)}}>{title}</a>
+                        <a
+                            href='#'
+                            onClick={e => {
+                                e.preventDefault();
+                                queuePost({ variables: { identifier } });
+                            }}
+                        >
+                            {title}
+                        </a>
                     </td>
                 </tr>
             )
