@@ -3,7 +3,6 @@ import { gql, useQuery, useMutation } from '@apollo/client';
 
 import bytes from 'bytes';
 
-
 const GET_POSTS = gql`
     query getPosts($term: String) {
         posts(
@@ -16,6 +15,16 @@ const GET_POSTS = gql`
         }
     }
 `;
+
+const QUEUE_POST = gql`
+    mutation QueuePost($identifier: String!) {
+        queuePost(identifier: $identifier) {
+            identifier
+            status
+        }
+    }
+`; 
+
 
 const ResultTable = ({ term }) => {
     const { loading, error, data } = useQuery(

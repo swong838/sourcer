@@ -7,8 +7,6 @@ import {
     InMemoryCache,
 } from '@apollo/client';
 
-
-import SearchBox from './searchBox';
 import ResultTable from './resultTable';
 
 const client = new ApolloClient({
@@ -25,9 +23,25 @@ class App extends Component {
     }
 
     render() {
+        const returnKey = 13;
         return (
             <ApolloProvider client={client}>
-                <SearchBox term={this.state.term} />
+                <section>
+                    <input
+                        type="text"
+                        placeholder={this.state.term}
+                        onBlur={e => {
+                            this.setState({ term: e.target.value })
+                        }}
+                        onKeyUp={e => {
+                            if (e.keyCode === returnKey) {
+                                e.preventDefault();
+                                this.setState({ term: e.target.value });
+                            }
+                        }}
+                    />
+                    <button>go</button>
+                </section>
                 <ResultTable term={this.state.term} />
             </ApolloProvider>
         );
