@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
-
 import {
     ApolloClient,
     ApolloProvider,
@@ -9,6 +8,7 @@ import {
 } from '@apollo/client';
 
 
+import SearchBox from './searchBox';
 import ResultTable from './resultTable';
 
 const client = new ApolloClient({
@@ -21,38 +21,13 @@ class App extends Component {
 
     constructor(props){
         super(props);
-        this.state = {term: 'pbs'};
-    }
-
-    // relay selection to local app
-    toQueue = identifier => {
-        return async (event) => {
-            event.preventDefault();
-            // call local app API
-            const result = await fetch('/push', {
-                method: 'POST',
-                mode: 'cors',
-                credentials: 'same-origin',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({identifier})
-            });
-            return await result.json();
-        }
+        this.state = { term: 'pbs' };
     }
 
     render() {
         return (
             <ApolloProvider client={client}>
-                <section>
-                    <input type="text" placeholder="search" onBlur={e => {
-                        this.setState({
-                            term: e.target.value
-                        });
-                    }} />
-                    <button>go</button>
-                </section>
+                <SearchBox term={this.state.term} />
                 <ResultTable term={this.state.term} />
             </ApolloProvider>
         );

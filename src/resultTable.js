@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { gql, useQuery } from '@apollo/client';
+import React from 'react';
+import { gql, useQuery, useMutation } from '@apollo/client';
 
 import bytes from 'bytes';
 
 
-const getPosts = gql`
+const GET_POSTS = gql`
     query getPosts($term: String) {
         posts(
             term: $term
@@ -17,13 +17,9 @@ const getPosts = gql`
     }
 `;
 
-const queuePost = gql`
-
-`;
-
 const ResultTable = ({ term }) => {
     const { loading, error, data } = useQuery(
-        getPosts,
+        GET_POSTS,
         { variables: { term }}
     );
 

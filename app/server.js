@@ -28,15 +28,10 @@ webServer.use(express.json())
 webServer.use('/', express.static('./app/client'))
 
 
-
 // proxy the remote API call through this webServer
 webServer.get('/search/:searchterm([a-zA-Z0-9-_]{0,})', async (request, response, next) => {
-
     // const results = await grab(request.params.searchterm);
-
     // response.json(results);
-
-
 });
 
 // proxy the client calls to the local processing API
