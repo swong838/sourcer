@@ -4,7 +4,6 @@ const typeDefs = gql`
     type Post {
         title: String!
         pubDate: String!
-        link: String!
         size: String!
         identifier: String!
     }

@@ -9,15 +9,15 @@ const apis = Object.freeze({
         url: process.env.SOURCEPATH,
         args: {
             apikey: process.env.SOURCEKEY,
-            o: 'json',
-            t: 'search',
-            minsize: '209715200',
-            maxage: '100',
-            limit: '400',
+            t: 'search',    // api mode
+            o: 'json',      // response format
+            q: '',          // query
         },
         itemArgs: {
             apikey: process.env.SOURCEKEY,
-            t: 'get',
+            t: 'get',       // api mode
+            o: 'file',      // response format
+            id: '',         // identifier of object to retrieve
         }
     },
     sink: {
@@ -45,42 +45,45 @@ class PostAPI extends RESTDataSource {
     }
 
     async getPosts({
-        term='',
-        maxage=10,
-        limit=200,
+        term='linux',
     }) {
         console.log(`Fetching results for ${term}`);
 
         const GETQuery = querystring.stringify({
             ...apis.source.args,
-            limit,
-            maxage,
             q: term,
         });
         const response = await this.get(`?${GETQuery}`);
 
-        if (!response.channel || !response.channel.item) {
-            throw new Error(`couldn't parse response from endpoint`);
+        if (!response.item || !response.item.length) {
+            console.log('Fetch error');
+            throw new Error('No results.');
+        }
+        else {
+            console.log(`Query for ${term} got ${response.item.length} results.`)
         }
 
         // sort by date, then alpha by title within date
-        let responsesByDate = new Map();
-        response.channel.item.forEach((postEntry) => {
-            const post = this.postReducer(postEntry);
-            let thisDate = responsesByDate.get(post.pubDate);
+        let entitiesByDate = new Map();
+        response.item.forEach((postEntry) => {
+            const post = this.entityReducer(postEntry);
+            if (!post) {
+                return;
+            }
+            let thisDate = entitiesByDate.get(post.pubDate);
             if (thisDate) {
                 thisDate.push(post);
             }
             else {
-                responsesByDate.set(post.pubDate, [post]);
+                entitiesByDate.set(post.pubDate, [post]);
             }
         });
     
-        let sortedPosts = [];
+        let sortedEntries = [];
 
         // sort by title within each date
-        for (let entriesByDate of responsesByDate.values()) {
-            entriesByDate.sort((first, second) => {
+        for (let entitiesOnDate of entitiesByDate.values()) {
+            entitiesOnDate.sort((first, second) => {
                 const firstTitle = first.title.toUpperCase();
                 const secondTitle = second.title.toUpperCase();
                 if (firstTitle < secondTitle) {
@@ -91,19 +94,31 @@ class PostAPI extends RESTDataSource {
                 }
                 return 0;
             });
-            sortedPosts.push(entriesByDate)
+            sortedEntries.push(entitiesOnDate)
         }    
-        return sortedPosts.flat();
+        return sortedEntries.flat();
     }
 
-    postReducer({ title, pubDate, link, enclosure, attr }) {
-        // transform Post response from endpoint format to local schema
+    getEntityId(entity) {
+        const fieldToExtract = (entity.guid && entity.guid.text) || '';
+        const identifier = /([a-f0-9]+)$/.exec(fieldToExtract);
+        return (identifier && identifier[0]) || false;
+    }
+
+    entityReducer(entity) {
+        // transform individual entity response from endpoint format to local schema
+        const { title, pubDate, enclosure } = entity;
+
+        const identifier = this.getEntityId(entity);
+        if (!identifier) {
+            return false;
+        }
+
         return {
-            title: title,
+            title,
             pubDate: _cleanDate(pubDate),
-            link: link.replace(/&amp;/g, '&'),
-            size: enclosure['@attributes'].length,
-            identifier: attr[3]['@attributes'].value,
+            size: enclosure['_length'],
+            identifier,
         }
     }
 }

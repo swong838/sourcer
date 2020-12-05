@@ -54,7 +54,7 @@ const ResultTable = ({ term }) => {
                     </td>
                     <td>
                         <a
-                            href='#'
+                            href={`#${identifier}`}
                             onClick={e => {
                                 e.preventDefault();
                                 queuePost({ variables: { identifier } });
