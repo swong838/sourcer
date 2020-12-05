@@ -1,0 +1,143 @@
+{
+    "atom:link": {
+        "_href": "https://someaggregator.com/api",
+        "_rel": "self",
+        "_type": "application/rss+xml"
+    },
+    "newznab:response": {
+        "_offset": "0",
+        "_total": "10022"
+    },
+    "newznab:apilimits": {
+        "_apiCurrent": "2",
+        "_apiMax": "1000",
+        "_grabCurrent": "5",
+        "_grabMax": "100"
+    },
+    "title": "DS",
+    "description": "DS API Details",
+    "link": "https://someaggregator.com/",
+    "language": "en-gb",
+    "webMaster": "ds@someaggregator.com DS",
+    "category": "someaggregator, ds, slug",
+    "generator": "nZEDb",
+    "ttl": "10",
+    "docs": "https://someaggregator.com/apihelp/",
+    "image": {
+        "_url": "https://someaggregator.com/themes/shared/img/logo.png",
+        "_title": "DS",
+        "_link": "https://someaggregator.com/",
+        "_description": "Visit DS - someaggregator"
+    },
+    "item": [
+        {
+            "newznab:attr": [
+                {
+                    "_name": "category",
+                    "_value": "7010"
+                },
+                {
+                    "_name": "size",
+                    "_value": "17253961"
+                }
+            ],
+            "title": "Linux.Format.Annual-November.2020",
+            "guid": {
+                "_isPermaLink": "true",
+                "text": "https://someaggregator.com/details/e84faec01469004f1cf2e14a9af87c63e94649fd"
+            },
+            "link": "https://someaggregator.com/getnzb/e84faec01469004f1cf2e14a9af87c63e94649fd.nzb&i=103816&r=c05121d3dfc1555bee587099fedeb499",
+            "comments": "https://someaggregator.com/details/e84faec01469004f1cf2e14a9af87c63e94649fd#comments",
+            "pubDate": "Sat, 05 Dec 2020 00:30:27 +0000",
+            "category": "Books > Magazines",
+            "description": "Linux.Format.Annual-November.2020",
+            "enclosure": {
+                "_url": "https://someaggregator.com/getnzb/e84faec01469004f1cf2e14a9af87c63e94649fd.nzb&i=103816&r=c05121d3dfc1555bee587099fedeb499",
+                "_length": "17253961",
+                "_type": "application/x-nzb"
+            }
+        }
+        {
+            "newznab:attr": [
+                {
+                    "_name": "category",
+                    "_value": "7010"
+                },
+                {
+                    "_name": "size",
+                    "_value": "6516275"
+                }
+            ],
+            "title": "Linux.Magazine.USA.Issue.237-August.2020",
+            "guid": {
+                "_isPermaLink": "true",
+                "text": "https://someaggregator.com/details/1ea20ae2f9484647538b6a85986ffb6178e981e5"
+            },
+            "link": "https://someaggregator.com/getnzb/1ea20ae2f9484647538b6a85986ffb6178e981e5.nzb&i=103816&r=c05121d3dfc1555bee587099fedeb499",
+            "comments": "https://someaggregator.com/details/1ea20ae2f9484647538b6a85986ffb6178e981e5#comments",
+            "pubDate": "Thu, 01 Oct 2020 02:37:23 +0100",
+            "category": "Books > Magazines",
+            "description": "Linux.Magazine.USA.Issue.237-August.2020",
+            "enclosure": {
+                "_url": "https://someaggregator.com/getnzb/1ea20ae2f9484647538b6a85986ffb6178e981e5.nzb&i=103816&r=c05121d3dfc1555bee587099fedeb499",
+                "_length": "6516275",
+                "_type": "application/x-nzb"
+            }
+        },
+        {
+            "newznab:attr": [
+                {
+                    "_name": "category",
+                    "_value": "7010"
+                },
+                {
+                    "_name": "size",
+                    "_value": "65059256"
+                }
+            ],
+            "title": "Linux.Magazine.USA.Issue.237-August.2020",
+            "guid": {
+                "_isPermaLink": "true",
+                "text": "https://someaggregator.com/details/e80e6697dc76620a2519c216eee2e3261058cc5b"
+            },
+            "link": "https://someaggregator.com/getnzb/e80e6697dc76620a2519c216eee2e3261058cc5b.nzb&i=103816&r=c05121d3dfc1555bee587099fedeb499",
+            "comments": "https://someaggregator.com/details/e80e6697dc76620a2519c216eee2e3261058cc5b#comments",
+            "pubDate": "Thu, 01 Oct 2020 02:37:19 +0100",
+            "category": "Books > Magazines",
+            "description": "Linux.Magazine.USA.Issue.237-August.2020",
+            "enclosure": {
+                "_url": "https://someaggregator.com/getnzb/e80e6697dc76620a2519c216eee2e3261058cc5b.nzb&i=103816&r=c05121d3dfc1555bee587099fedeb499",
+                "_length": "65059256",
+                "_type": "application/x-nzb"
+            }
+        },
+        {
+            "newznab:attr": [
+                {
+                    "_name": "category",
+                    "_value": "7010"
+                },
+                {
+                    "_name": "size",
+                    "_value": "6488272"
+                }
+            ],
+            "title": "Linux.Magazine.USA.Issue.236-July.2020",
+            "guid": {
+                "_isPermaLink": "true",
+                "text": "https://someaggregator.com/details/61051a719159671c9a56b831aeda92378a8ef8d3"
+            },
+            "link": "https://someaggregator.com/getnzb/61051a719159671c9a56b831aeda92378a8ef8d3.nzb&i=103816&r=c05121d3dfc1555bee587099fedeb499",
+            "comments": "https://someaggregator.com/details/61051a719159671c9a56b831aeda92378a8ef8d3#comments",
+            "pubDate": "Thu, 01 Oct 2020 00:26:21 +0100",
+            "category": "Books > Magazines",
+            "description": "Linux.Magazine.USA.Issue.236-July.2020",
+            "enclosure": {
+                "_url": "https://someaggregator.com/getnzb/61051a719159671c9a56b831aeda92378a8ef8d3.nzb&i=103816&r=c05121d3dfc1555bee587099fedeb499",
+                "_length": "6488272",
+                "_type": "application/x-nzb"
+            }
+        },
+
+    ]
+}
