@@ -26,5 +26,5 @@ webServer.use(express.json())
 webServer.use('/', express.static('./app/client'))
 
 // start the app
-gqlServer.listen().then(({ url }) => console.log(`gql endpoint up at port ${url}`);
-webServer.listen(port, () => console.log(`Frontend listening on port ${port}`);
+gqlServer.listen().then(({ url }) => console.log(`gql endpoint up at port ${url}`));
+webServer.listen(port, () => console.log(`Frontend listening on port ${port}`));
