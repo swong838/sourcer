@@ -32,7 +32,4 @@ const resolvers = {
     }
 };
 
-export {
-    resolvers,
-    typeDefs,
-};
+export { resolvers, typeDefs };
